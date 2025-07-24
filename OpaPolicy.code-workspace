@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"name": "OpaPolicy",
+			"path": "."
+		},
+		{
+			"name": "src",
+			"path": "../../Desktop/auth-policy/src"
+		}
+	],
+	"settings": {
+		"java.compile.nullAnalysis.mode": "automatic",
+		"java.configuration.updateBuildConfiguration": "automatic"
+	}
+}

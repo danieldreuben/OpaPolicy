@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.5.3</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.ros.opa</groupId>
+	<artifactId>auth-policy</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>auth-policy</name>
+	<description>Demo project for Spring Boot</description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-compress</artifactId>
+			<version>1.21</version> <!-- Use latest stable version -->
+		</dependency>
+		<dependency>
+			<groupId>com.styra.opa</groupId>
+			<artifactId>opa-java-wasm</artifactId>
+			<version>0.0.8</version>
+		</dependency>
+	</dependencies>
+	<build>
+		<plugins>
+			<!-- Spring Boot Plugin -->
+			<plugin>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+			<artifactId>maven-antrun-plugin</artifactId>
+			<version>3.1.0</version>
+			<executions>
+				<execution>
+				<id>create-policy-dir</id>
+				<phase>generate-resources</phase>
+				<goals>
+					<goal>run</goal>
+				</goals>
+				<configuration>
+					<target>
+					<mkdir dir="${project.build.outputDirectory}/policy" />
+					</target>
+				</configuration>
+				</execution>
+			</executions>
+			</plugin>
+			<!-- OPA Exec Plugin -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>3.1.0</version>
+				<executions>
+					<execution>
+						<id>opa-build</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>exec</goal>
+						</goals>
+						<configuration>
+							<executable>opa</executable>
+							<arguments>
+							<argument>build</argument>
+							<argument>-t</argument>
+							<argument>wasm</argument>
+							<argument>-e</argument>
+							<argument>scim/authz/result</argument>
+							<argument>-o</argument>
+							<argument>${project.build.outputDirectory}/policy/bundle.tar.gz</argument>
+							<argument>src/main/resources/policy</argument>
+							</arguments>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
