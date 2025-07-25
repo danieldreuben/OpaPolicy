@@ -1,4 +1,4 @@
-package com.ros.opa.auth_policy;
+package com.ros.opa;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

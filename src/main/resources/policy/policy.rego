@@ -5,7 +5,20 @@ default result = {
   "invalidClasses": []
 }
 
+is_admin if {
+  input.roles[_] == "admin"
+}
+
 result = output if {
+  # If user is admin, immediately allow
+  is_admin
+  
+  output := {
+    "allow": true,
+    "invalidClasses": []
+  }
+} else = output if {
+  # Otherwise, check invalid classes
   invalids := [c |
     some i
     c := input.output.classes[i]
