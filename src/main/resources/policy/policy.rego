@@ -6,11 +6,12 @@ default result = {
 }
 
 is_admin if {
-  input.roles[_] == "admin"
+  input.roles[_] == "role.admin"  
+  input["urn:ietf:params:scim:schemas:extension:enterprise:2.0:User"].department == "IT"
 }
 
 result = output if {
-  # If user is admin, immediately allow
+  # If user is admin in IT department, immediately allow
   is_admin
   
   output := {
@@ -37,5 +38,4 @@ isValidClass(c) if {
   some j
   input.claims.validationSet.validationList[j] == c
 }
-
 

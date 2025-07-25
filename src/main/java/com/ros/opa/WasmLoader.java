@@ -48,6 +48,7 @@ public class WasmLoader {
 
                         byte[] wasmBytes = baos.toByteArray();
                         String fileName = entry.getName().substring(entry.getName().lastIndexOf("/") + 1);
+                        System.out.println("loaded wasm " + fileName);
                         wasmCache.put(fileName, wasmBytes);
                     }
                 }

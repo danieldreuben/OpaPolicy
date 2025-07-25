@@ -45,11 +45,18 @@
 			<artifactId>commons-compress</artifactId>
 			<version>1.21</version> <!-- Use latest stable version -->
 		</dependency>
+    <dependency>
+      <groupId>com.styra</groupId>
+      <artifactId>opa</artifactId>
+      <version>1.8.0</version>
+    </dependency>		
+
 		<dependency>
 			<groupId>com.styra.opa</groupId>
 			<artifactId>opa-java-wasm</artifactId>
 			<version>0.0.8</version>
-		</dependency>
+		</dependency>	
+	
 	</dependencies>
 	<build>
 		<plugins>
@@ -96,6 +103,8 @@
 							<argument>wasm</argument>
 							<argument>-e</argument>
 							<argument>scim/authz/result</argument>
+							<!--<argument>-e</argument>
+							<argument>department/access/allow</argument>-->
 							<argument>-o</argument>
 							<argument>${project.build.outputDirectory}/policy/bundle.tar.gz</argument>
 							<argument>src/main/resources/policy</argument>
