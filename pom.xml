@@ -71,7 +71,7 @@
 			<executions>
 				<execution>
 				<id>create-policy-dir</id>
-				<phase>generate-resources</phase>
+				<phase>initialize</phase>
 				<goals>
 					<goal>run</goal>
 				</goals>

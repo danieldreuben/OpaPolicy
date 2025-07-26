@@ -39,7 +39,7 @@ class AuthPolicyApplicationTests {
             "classes": ["9991283", "9991284", "9492", "33295837"]
         },
         
-        "roles": ["role.admin","order.read","supplier.read"],
+        "roles": ["role.admin6","order.read","supplier.read"],
 
         "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
             "department": "IT"
