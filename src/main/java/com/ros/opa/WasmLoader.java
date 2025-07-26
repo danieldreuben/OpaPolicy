@@ -59,7 +59,7 @@ public class WasmLoader {
         if (result == null) {
             throw new FileNotFoundException("WASM file " + wasmFileName + " not found in bundle: " + bundlePath);
         }
-
+        
         return result;
     }
 }

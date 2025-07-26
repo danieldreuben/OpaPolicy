@@ -6,17 +6,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ros.opa.WasmLoader;
-import com.styra.opa.OPAClient;
 import com.styra.opa.wasm.OpaPolicy;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 class AuthPolicyApplicationTests {
@@ -45,7 +39,7 @@ class AuthPolicyApplicationTests {
             "classes": ["9991283", "9991284", "9492", "33295837"]
         },
         
-        "roles": ["admin","order.read","supplier.read"],
+        "roles": ["role.admin","order.read","supplier.read"],
 
         "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
             "department": "IT"
