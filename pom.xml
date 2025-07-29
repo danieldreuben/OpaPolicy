@@ -41,6 +41,14 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>		
+		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-compress</artifactId>
 			<version>1.21</version> <!-- Use latest stable version -->
@@ -103,8 +111,6 @@
 							<argument>wasm</argument>
 							<argument>-e</argument>
 							<argument>scim/authz/result</argument>
-							<!--<argument>-e</argument>
-							<argument>department/access/allow</argument>-->
 							<argument>-o</argument>
 							<argument>${project.build.outputDirectory}/policy/bundle.tar.gz</argument>
 							<argument>src/main/resources/policy</argument>

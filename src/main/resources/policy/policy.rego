@@ -43,4 +43,3 @@ isValidClass(c) if {
   some j
   input.claims.validationSet.validationList[j] == c
 }
-
