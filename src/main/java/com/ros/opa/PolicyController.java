@@ -1,8 +1,9 @@
 package com.ros.opa;
 
-import com.ros.opa.CheckPolicy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import com.ros.opa.auth_policy.CheckPolicy;
 
 import java.util.Map;
 

@@ -1,4 +1,4 @@
-package com.ros.opa;
+package com.ros.opa.auth_policy;
 
 import java.io.*;
 import java.util.HashMap;

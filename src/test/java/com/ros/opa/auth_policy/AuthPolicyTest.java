@@ -5,7 +5,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ros.opa.WasmLoader;
 import com.styra.opa.wasm.OpaPolicy;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
