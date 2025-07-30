@@ -62,4 +62,5 @@ public class WasmLoader {
         
         return result;
     }
+
 }

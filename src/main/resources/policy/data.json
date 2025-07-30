@@ -1,0 +1,7 @@
+{
+  "method_permissions": {
+    "createUser": ["admin", "manager"],
+    "deleteUser": ["admin"],
+    "getAllItems": ["admin", "auditor", "manager"]
+  }
+}

@@ -1,6 +1,7 @@
 package com.ros.opa;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.CommandLineRunner;
@@ -37,8 +38,38 @@ public class AuthPolicyApplication implements CommandLineRunner {
         }
     }
 
+	public Map<String, Object> getTestClaimMap() {
+		Map<String, Object> data = new HashMap<>();
+
+		// Roles
+		data.put("roles", List.of("auditor", "order.read", "supplier.read", "admin.role"));
+
+		// Claims
+		Map<String, Object> validationSet = Map.of(
+			"validationList", List.of("9991283", "9991284", "9991285")
+		);
+		data.put("claims", Map.of("validationSet", validationSet));
+
+		// SCIM User extension
+		data.put("urn:ietf:params:scim:schemas:extension:enterprise:2.0:User",
+				Map.of("department", "IT"));
+
+		return data;
+	}
+
+
     private String getClaim() {
-   		return "{\"sub\":\"user123\",\"role\":\"RoleA\",\"org\":\"Sales\"}";
+    return "{"
+         + "\"roles\": [\"auditor\", \"order.read\", \"supplier.read\", \"admin.role\"],"
+         + "\"claims\": {"
+         + "  \"validationSet\": {"
+         + "    \"validationList\": [\"9991283\", \"9991284\", \"9991285\"]"
+         + "  }"
+         + "},"
+         + "\"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {"
+         + "  \"department\": \"IT\""
+         + "}"
+         + "}";
     }
 }
 

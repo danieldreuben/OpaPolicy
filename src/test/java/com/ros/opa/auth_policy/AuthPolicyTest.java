@@ -14,6 +14,7 @@ import java.io.*;
 @SpringBootTest
 class AuthPolicyApplicationTests {
 
+
     @Test
     public void testClassValidation2() throws Exception {
         // Initialize the WasmLoader with the bundle path in your classpath
@@ -24,7 +25,8 @@ class AuthPolicyApplicationTests {
 
         // Initialize OPA policy with raw wasm bytes
         OpaPolicy policy = OpaPolicy.builder()
-                .withPolicy(new ByteArrayInputStream(wasmBytes))
+                .withPolicy(new ByteArrayInputStream(wasmBytes))  
+                .withJsonMapper(null)            
                 .build();
 
         String inputJson = """
@@ -35,15 +37,16 @@ class AuthPolicyApplicationTests {
             }
         },
         "output": {
-            "classes": ["9991283", "9991284", "9492", "33295837"]
+            "classes": ["9991283", "9991284"]
         },
         
-        "roles": ["role.admin6","order.read","supplier.read"],
+        "roles": ["auditor","order.read","supplier.read", "admin.role"],
 
         "urn:ietf:params:scim:schemas:extension:enterprise:2.0:User": {
             "department": "IT"
         },        
-        "validateField": "classes"
+        "validateField": "classes",
+        "method": "getAllItems"
         }
         """;
 
@@ -55,11 +58,11 @@ class AuthPolicyApplicationTests {
         // OPA evaluation result is an array with one object containing "result"
         JsonNode firstResult = rootNode.get(0).get("result");
 
-        boolean allow = firstResult.get("allow").asBoolean();
+        //boolean allow = firstResult.get("allow").asBoolean();
         JsonNode invalidClassesNode = firstResult.get("invalidClasses");
 
-        System.out.println("allow? " + allow + " invalidClasses " + invalidClassesNode);
-
+        //System.out.println("allow? " + allow + " invalidClasses " + invalidClassesNode);
+        System.out.println(firstResult);
         assertTrue(invalidClassesNode.isArray(), "invalidClasses should be an array");
     } 
 

@@ -105,16 +105,18 @@
 						</goals>
 						<configuration>
 							<executable>opa</executable>
-							<arguments>
-							<argument>build</argument>
-							<argument>-t</argument>
-							<argument>wasm</argument>
-							<argument>-e</argument>
-							<argument>scim/authz/result</argument>
-							<argument>-o</argument>
-							<argument>${project.build.outputDirectory}/policy/bundle.tar.gz</argument>
-							<argument>src/main/resources/policy</argument>
-							</arguments>
+							 <workingDirectory>${project.basedir}/src/main/resources/policy</workingDirectory>
+								<arguments>
+								<argument>build</argument>
+								<argument>-t</argument>
+								<argument>wasm</argument>
+								<argument>-e</argument>
+								<argument>scim/authz/result</argument>
+								<argument>-o</argument>
+								<argument>${project.build.outputDirectory}/policy/bundle.tar.gz</argument>
+								<argument>policy.rego</argument>
+								<argument>data.json</argument>
+								</arguments>
 						</configuration>
 					</execution>
 				</executions>
