@@ -70,6 +70,5 @@ public class AuthPolicyApplication implements CommandLineRunner {
 
 		return data;
 	}
-
 }
 

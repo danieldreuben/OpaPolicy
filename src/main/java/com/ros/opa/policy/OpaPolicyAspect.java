@@ -72,7 +72,7 @@ public class OpaPolicyAspect {
             }
         }
 
-        // Evaluate policy with JsonNode
+        // Evaluate policy with JsonNode.
         //boolean allowed = policy.evaluate(inputNode);  // Your policy service
         String resultJson = policy.evaluate(inputNode);
 
