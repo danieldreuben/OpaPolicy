@@ -8,6 +8,9 @@ import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.styra.opa.wasm.OpaPolicy;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +25,7 @@ import java.util.Map;
 public class OpaPolicyAspect {
     
     private OpaPolicy policy; 
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
     public OpaPolicyAspect() {
         try {
@@ -42,37 +46,53 @@ public class OpaPolicyAspect {
 
     @Around("@annotation(checkPolicy)")
     public Object enforcePolicy(ProceedingJoinPoint pjp, CheckPolicy checkPolicy) throws Throwable {
-        Map<String, Object> input = extractInput(pjp);
+        ObjectNode inputNode = objectMapper.createObjectNode();
+
+        // Get method name
         Method method = ((MethodSignature) pjp.getSignature()).getMethod();
         String methodName = method.getName();
-        //boolean allowed = opaService.evaluate(checkPolicy.value(), input);
-        boolean allowed = true;
+        inputNode.put("method", methodName);
 
-        //Map<String, Object> input = extractInput(pjp);
-
-        // Get current HTTP request
+        // Get JSON claims from header
         HttpServletRequest request = getCurrentHttpRequest();
         if (request != null) {
-            // Example: get a specific header, e.g. "X-User-Token"
-            String headerValue = request.getHeader("X-User-Token");
-            // Add header to input map for OPA evaluation
-            input.put("claim", headerValue);
-        }       
-System.out.println("claim-header " + input.get("claim"));
+            String claimsJson = request.getHeader("X-User-Claims");
 
-        if (!allowed) {
-            throw new SecurityException("Access denied by OPA policy");
+            if (claimsJson != null && !claimsJson.isEmpty()) {
+                try {
+                    JsonNode claimsNode = objectMapper.readTree(claimsJson);
+                    if (claimsNode.isObject()) {
+                        inputNode.setAll((ObjectNode) claimsNode);  // Merge claims into input
+                    } else {
+                        throw new IllegalArgumentException("X-User-Claims must be a JSON object");
+                    }
+                } catch (Exception e) {
+                    throw new IllegalArgumentException("Invalid JSON in X-User-Claims header", e);
+                }
+            }
         }
-        System.out.println("AOP:enforcePolicy - checking opa policy -" + methodName);
-        // Proceed with the original method and capture the result
+
+        // Evaluate policy with JsonNode
+        //boolean allowed = policy.evaluate(inputNode);  // Your policy service
+        String resultJson = policy.evaluate(inputNode);
+
+        ObjectMapper mapper = new ObjectMapper();
+        JsonNode rootNode = mapper.readTree(resultJson);
+        // OPA evaluation result is an array with one object containing "result"
+        JsonNode firstResult = rootNode.get(0).get("result");
+        System.out.println("AOP Policy Response: " + firstResult);
+        
+        boolean allowed = firstResult.path("allow").asBoolean();
+        if (!allowed) {
+            throw new SecurityException("Access denied by OPA policy" + allowed);
+        }
+
+        // Proceed with the original method
         Object result = pjp.proceed();
 
-        // Log or inspect the result
-        System.out.println("AOP: enforcePolicy - method returned: " + result);
-
-        // Optionally modify result before returning
         return result;
     }
+
 
     private HttpServletRequest getCurrentHttpRequest() {
             RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
@@ -81,7 +101,7 @@ System.out.println("claim-header " + input.get("claim"));
             }
             return null;
         }
-
+/* 
     private Map<String, Object> extractInput(ProceedingJoinPoint pjp) {
         MethodSignature signature = (MethodSignature) pjp.getSignature();
         String[] paramNames = signature.getParameterNames();
@@ -92,6 +112,6 @@ System.out.println("claim-header " + input.get("claim"));
             input.put(paramNames[i], args[i]);
         }
         return input;
-    }
+    } */
 }
 

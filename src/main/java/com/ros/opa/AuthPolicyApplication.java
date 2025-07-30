@@ -25,7 +25,7 @@ public class AuthPolicyApplication implements CommandLineRunner {
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-User-Claim", getClaim());
+        headers.set("X-User-Claims", getClaim());
 
     	Map<String, Object> body = new HashMap<>(); // or Map.of() for immutable
     	HttpEntity<Map<String, Object>> request = new HttpEntity<>(body, headers);		
@@ -37,6 +37,20 @@ public class AuthPolicyApplication implements CommandLineRunner {
             System.err.println("POST call failed: " + e.getMessage());
         }
     }
+
+    private String getClaim() {
+    return "{"
+         + "\"roles\": [\"auditor\", \"order.read\", \"supplier.read\", \"admin.role\"],"
+         + "\"claims\": {"
+         + "  \"validationSet\": {"
+         + "    \"validationList\": [\"1111111\", \"9991283\", \"9991284\", \"9991285\"]"
+         + "  }"
+         + "},"
+         + "\"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {"
+         + "  \"department\": \"IT\""
+         + "}"
+         + "}";
+    }	
 
 	public Map<String, Object> getTestClaimMap() {
 		Map<String, Object> data = new HashMap<>();
@@ -57,19 +71,5 @@ public class AuthPolicyApplication implements CommandLineRunner {
 		return data;
 	}
 
-
-    private String getClaim() {
-    return "{"
-         + "\"roles\": [\"auditor\", \"order.read\", \"supplier.read\", \"admin.role\"],"
-         + "\"claims\": {"
-         + "  \"validationSet\": {"
-         + "    \"validationList\": [\"9991283\", \"9991284\", \"9991285\"]"
-         + "  }"
-         + "},"
-         + "\"urn:ietf:params:scim:schemas:extension:enterprise:2.0:User\": {"
-         + "  \"department\": \"IT\""
-         + "}"
-         + "}";
-    }
 }
 
