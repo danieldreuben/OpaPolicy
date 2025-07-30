@@ -16,10 +16,10 @@ curl -L -o opa https://github.com/open-policy-agent/opa/releases/latest/download
 
 rename to opa.exe and add to path
 
---builds java and rego policy..
+--builds java and rego policy<p>
 mvn clean install
 
---runs (aop) use-case with policy check
+--runs (aop) use-case with policy check<p>
 mvn spring-boot:run 
 
 See: policy test and resources/policy
