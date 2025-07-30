@@ -1,4 +1,4 @@
-package com.ros.opa.auth_policy;
+package com.ros.opa.policy;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

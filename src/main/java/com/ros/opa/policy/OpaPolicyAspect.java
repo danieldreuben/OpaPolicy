@@ -1,4 +1,4 @@
-package com.ros.opa.auth_policy;
+package com.ros.opa.policy;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;

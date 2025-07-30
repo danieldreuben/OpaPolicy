@@ -1,4 +1,4 @@
-package com.ros.opa.auth_policy;
+package com.ros.opa.policy;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;

@@ -11,10 +11,15 @@ Rego Playground
 https://play.openpolicyagent.org
 
 # Getting Started
+--install opa command-line (required for compiling .rego files)
+curl -L -o opa https://github.com/open-policy-agent/opa/releases/latest/download/opa_darwin_amd64
+
+rename to opa.exe and add to path
+
 --builds java and rego policy..
 mvn clean install
 
---runs aop use-case with policy check
+--runs (aop) use-case with policy check
 mvn spring-boot:run 
 
 See: policy test and resources/policy
